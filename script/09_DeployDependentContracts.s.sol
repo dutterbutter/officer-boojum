@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 // script/DeployComplex.s.sol
 pragma solidity ^0.8.19;
+
 import "forge-std/Script.sol";
 
 contract A { function foo() external pure returns (uint) { return 42; } }
