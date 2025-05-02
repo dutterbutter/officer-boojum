@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: UNLICENSED
-// script/DeployWithArgs.s.sol
 pragma solidity ^0.8.19;
 
 contract Greeter {
@@ -9,5 +8,9 @@ contract Greeter {
     constructor(string memory _greeting) payable {
         greeting = _greeting;
         sender = msg.sender;
+    }
+
+    function whoAmI() public view returns (address) {
+        return msg.sender;
     }
 }

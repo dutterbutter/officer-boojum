@@ -8,5 +8,5 @@ fork_url                  = "boojum"
 fork_block_number         = 320
 
 [rpc_endpoints]
-boojum = "${RPC_URL}"
+boojum = "${BOOJUM_LOCAL_RPC_URL}"
 era = "https://mainnet.era.zksync.io"

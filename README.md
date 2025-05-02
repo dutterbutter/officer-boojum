@@ -1,66 +1,54 @@
-## Foundry
+# officer‑boojum
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+Minimal test stand for boojumOS.
 
-Foundry consists of:
+## Quick start
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+```bash
+# clone + spin up the complete local stack
+make bootstrap
 
-## Documentation
+# fund your dev L2 account with test ETH (10 Ξ by default)
+make fund
+````
 
-https://book.getfoundry.sh/
+> **Note:** Update `scripts/fund_rich.sh` with correct Bridgehub address.
 
-## Usage
+`.env` - see .env-example for reference:
 
-### Build
+```dotenv
+PRIVATE_KEY=0xabc…dead
+BOOJUM_LOCAL_RPC_URL=http://localhost:3050 # your local L2 RPC
 
-```shell
-$ forge build
+# optional if you prefer an unlocked account over a raw key
+#ACCOUNT=test-wallet
 ```
 
-### Test
+## Deployment scripts
 
-```shell
-$ forge test
-```
+| make target                         | what it covers               |
+| ----------------------------------- | ---------------------------- |
+| `make deploy-hello-world`           | bare deploy, no constructor  |
+| `make deploy-with-constructor-args` | constructor args + ETH value |
+| `make link-library-and-deploy`      | runtime library linking      |
+| `make deploy-library-user`          | linked consumer (03 b)       |
+| `make deploy-via-create2`           | deterministic `CREATE2`      |
+| `make deploy-and-interact`          | deploy + immediate calls     |
+| `make deploy-reverting-constructor` | revert handling              |
+| `make test-system-predeploy`        | call Boojum predeploy (P256) |
+| `make deploy-with-gas-overrides`    | custom gas/price             |
+| `make deploy-dependent-contracts`   | multi‑contract wiring        |
+| `make deploy-dynamic-array`         | big calldata array           |
+| `make deploy-emit-event`            | event in constructor         |
+| `make deploy-selfdestruct`          | `selfdestruct` edge‑case     |
+| `make deploy-delegatecall`          | delegate‑initialiser         |
+| `make deploy-upgradeable-proxy`     | OZ proxy pattern             |
+| `make deploy-max-gas-constructor`   | near‑block‑limit constructor |
+| `make deploy-receive-ether`         | `receive()` & fallback       |
+| `make deploy-large-bytecode`        | 24 KB+ runtime size          |
+| `make deploy-mapping-init`          | nested mapping writes        |
+| `make deploy-revert-reason`         | custom‑error decode          |
+| `make deploy-inline-assembly`       | Yul‑only constructor         |
+| **`make all`**                      | runs every target above      |
 
-### Format
-
-```shell
-$ forge fmt
-```
-
-### Gas Snapshots
-
-```shell
-$ forge snapshot
-```
-
-### Anvil
-
-```shell
-$ anvil
-```
-
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+All scripts live in `script/*.s.sol` and broadcast using the shared `$(FLAGS)`.
