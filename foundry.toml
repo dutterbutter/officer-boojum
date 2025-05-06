@@ -5,8 +5,12 @@ out                       = "out"
 libs                      = ["lib"]
 ffi                       = false      
 fork_url                  = "boojum"
-fork_block_number         = 320
+solc_version              = "0.8.24"
+evm_version               = "cancun"
+fs_permissions = [
+    { access = "read", path = "./script/evm-predeploy-datas" },
+]
 
 [rpc_endpoints]
-boojum = "${BOOJUM_LOCAL_RPC_URL}"
+boojum = "${BOOJUM_NET_RPC_URL}"
 era = "https://mainnet.era.zksync.io"

@@ -1,16 +1,32 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Load any .env overrides
 export $(grep -v '^#' .env | xargs)
 
 # ─── Configurable variables ─────────────
-RPC_URL=${L1_RPC_URL:-http://localhost:8545}
-
+RPC_URL=${LOCAL_L1_RPC_URL:-http://localhost:8545}
+L2_RPC_URL=${LOCAL_L2_RPC_URL:-http://localhost:3050}
+# Assumes using default Rich account PK ending in 4110
 FROM=${FROM:-0x36615Cf349d7F6344891B1e7CA7C72883F5dc049}
-PRIVATE_KEY=${PRIVATE_KEY_2:-${PRIVATE_KEY_2}}
+PRIVATE_KEY=${PRIVATE_KEY:-${PRIVATE_KEY}}
 
-# Call `zks_getBridgehubContract` for address
-BRIDGE_HUB=${BRIDGE_HUB:-0x18867ee275511faab6f4521523b2b9d3f1a701e2}
+# ─── Fetch the current bridgehub address ─────────────
+echo "ℹ️  querying zks_getBridgehubContract from ${L2_RPC_URL}…"
+BRIDGE_HUB=$(
+  curl -sH "Content-Type: application/json" \
+       -X POST --data '{
+         "jsonrpc":"2.0","id":1,
+         "method":"zks_getBridgehubContract","params":[]
+       }' "${L2_RPC_URL}" \
+  | jq -r '.result'
+)
+if [[ -z "$BRIDGE_HUB" || "$BRIDGE_HUB" == "null" ]]; then
+  echo "❌ failed to fetch bridge-hub address – got '$BRIDGE_HUB'"
+  exit 1
+fi
+echo "→ using bridge-hub at $BRIDGE_HUB"
+
 CHAIN_ID=${CHAIN_ID:-271}
 
 # 10 ETH on L1 → L2
@@ -22,8 +38,8 @@ L2_CALLDATA=${L2_CALLDATA:-0x00}
 L2_GAS_LIMIT=${L2_GAS_LIMIT:-1000000}
 PUBDATA_LIMIT=${PUBDATA_LIMIT:-800}
 
-# Factory-deps - default to one dummy 32-byte blob
-FACTORY_DEP=${FACTORY_DEP:-${PRIVATE_KEY_2}}
+# Factory-deps – default to one dummy 32-byte blob
+FACTORY_DEP=${FACTORY_DEP:-${PRIVATE_KEY}}
 FACTORY_DEPS="[${FACTORY_DEP}]"
 
 # L1 gas settings
@@ -48,4 +64,5 @@ cast send \
   --value     "$DEPOSIT_WEI"
 
 echo ""
-echo "✅ Tx submitted, check your L2 balance with cast balance <address> --rpc-url <L2-URL>."
+echo "✅ Tx submitted! You can check L2 balance with:"
+echo "   cast balance <address> --rpc-url <L2>"
