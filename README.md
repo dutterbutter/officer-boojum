@@ -1,27 +1,6 @@
-**Updating README**
-
-The user needs the README updated with new sections reflecting recent changes, like adding options for spinning up the Blockscout explorer, additional make commands, and updates to .env. I'll include sections on:
-
-* New .env variables like LOCAL\_L2\_RPC\_URL, LOCAL\_L1\_RPC\_URL, BOOJUM\_NET\_RPC\_URL, BOOJUM\_NET\_RICH\_ACCOUNT, ENVIRONMENT. I'll note their usage.
-* New make targets: clean-local, verify-reverting, blockscout-up, blockscout-down, and blockscout-reset.
-  I’ll also update the Quick Start and examples for .env. This should cover all the necessary details in proper markdown.
-
-
-Thought for 4 seconds
-
-
-Here’s an updated **README.md** that reflects:
-
-* the new `.env` layout and `ENVIRONMENT` switch
-* the `clean-local` and `verify-reverting` targets
-* our Blockscout Explorer helpers (`blockscout-up`, `blockscout-down`, `blockscout-reset`)
-
-````markdown
 # officer-boojum
 
 Minimal test stand for BoojumOS / zkSync-Era.
-
----
 
 ## Quick start
 
@@ -35,8 +14,6 @@ make clean-local
 # 3) Fund your dev L2 account with test ETH (10 Ξ by default)
 make fund
 ````
-
----
 
 ## Environment
 
