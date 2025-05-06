@@ -5,13 +5,13 @@ Minimal test stand for BoojumOS / zkSync-Era.
 ## Quick start
 
 ```bash
-# 1) Clone & spin up your complete local BoojumOS + zkSync-Era stack
+# 1) Clone & spin up your local BoojumOS
 make bootstrap
 
 # 2) (Optional) Clean up any existing local state
 make clean-local
 
-# 3) Fund your dev L2 account with test ETH (10 Ξ by default)
+# 3) Fund your dev L2 account with test ETH (10 by default)
 make fund
 ````
 
