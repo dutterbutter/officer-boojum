@@ -1,66 +1,117 @@
-## Foundry
+# officer-boojum
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+Minimal test stand for BoojumOS / zkSync-Era.
 
-Foundry consists of:
+## Quick start
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+```bash
+# 1) Clone & spin up your local BoojumOS
+make bootstrap
 
-## Documentation
+# 2) (Optional) Clean up any existing local state
+make clean-local
 
-https://book.getfoundry.sh/
+# 3) Fund your dev L2 account with test ETH (10 by default)
+make fund
+````
 
-## Usage
+## Environment
 
-### Build
+Copy the example and fill in your keys / URLs:
 
-```shell
-$ forge build
+```bash
+cp .env-example .env
 ```
 
-### Test
+```dotenv
+# Your deployer private key
+PRIVATE_KEY=0xabc…dead
 
-```shell
-$ forge test
+# Local stack RPC endpoints
+LOCAL_L2_RPC_URL=http://localhost:3050
+LOCAL_L1_RPC_URL=http://localhost:8545
+
+# Hosted BoojumNet (if you want to target the remote network)
+BOOJUM_NET_RPC_URL=https://boojum.example.com
+BOOJUM_NET_RICH_ACCOUNT=0xyourRichAccount…
+
+# Choose which network to target in `make` commands:
+#   ENVIRONMENT=local   → uses LOCAL_* URLs + PRIVATE_KEY
+#   ENVIRONMENT=boojum  → uses BOOJUM_NET_* URLs + RICH_ACCOUNT
+ENVIRONMENT=local
+
+# (Optional) if you prefer an unlocked account over raw key
+# ACCOUNT=test-wallet
 ```
 
-### Format
+## Makefile targets
 
-```shell
-$ forge fmt
+Run `make help` to see them all, but here are the highlights:
+
+### 🌱 Bootstrap & Cleanup
+
+| Target             | Description                                      |
+| ------------------ | ------------------------------------------------ |
+| `make bootstrap`   | Spin up a full local BoojumOS + zkSync-Era stack |
+| `make clean-local` | Tear‐down & wipedown all local bootstrap state   |
+| `make fund`        | Fund your L2 address via the BridgeHub cheatcode |
+
+### 🤝 Deployment scripts
+
+| Target                              | What it does                          |
+| ----------------------------------- | ------------------------------------- |
+| `make deploy-hello-world`           | Bare deploy, no constructor args      |
+| `make deploy-with-constructor-args` | Deploy + constructor args & ETH       |
+| `make link-library-and-deploy`      | Deploy a runtime library (MathLib)    |
+| `make deploy-library-user`          | Deploy a consumer linked to MathLib   |
+| `make deploy-via-create2`           | Deterministic `CREATE2` deployment    |
+| `make deploy-and-interact`          | Deploy + immediately interact         |
+| `make deploy-reverting-constructor` | Test revert‐in‐ctor handling          |
+| `make verify-reverting`             | Run both reverting scripts (no halt)  |
+| `make test-system-predeploy`        | Hit Boojum predeploy via P256 address |
+| `make deploy-with-gas-overrides`    | Custom gas & price overrides          |
+| `make deploy-dependent-contracts`   | Multi‐contract wiring                 |
+| `make deploy-dynamic-array`         | Deploy with large calldata arrays     |
+| `make deploy-emit-event`            | Emit event in constructor             |
+| `make deploy-selfdestruct`          | Self‐destruct edge‐case               |
+| `make deploy-delegatecall`          | Delegate‐call initializer             |
+| `make deploy-upgradeable-proxy`     | OpenZeppelin proxy pattern            |
+| `make deploy-max-gas-constructor`   | Near‐block‐limit ctor                 |
+| `make deploy-receive-ether`         | `receive()` & fallback logic          |
+| `make deploy-large-bytecode`        | > 24 KB runtime size                  |
+| `make deploy-mapping-init`          | Nested mapping initialization         |
+| `make deploy-revert-reason`         | Custom‐error decode                   |
+| `make deploy-inline-assembly`       | Yul‐only constructor                  |
+| **`make all`**                      | Run every deploy target above         |
+
+### 🔍 Blockscout Explorer
+
+You can now spin up a local Blockscout instance against your BoojumOS RPC:
+
+```bash
+# bring everything up (uses ./blockscout folder by default)
+make blockscout-up
+
+# stop & wipe your Blockscout containers + volumes
+make blockscout-down
+
+# just wipe volumes (keep containers & docker-compose)
+make blockscout-reset
 ```
 
-### Gas Snapshots
+Once `blockscout-up` completes, your explorer UI & API will be live at:
 
-```shell
-$ forge snapshot
+```bash
+http://localhost        ← frontend
+http://localhost/api    ← REST endpoints
+http://localhost:8080   ← stats-server
+http://localhost:8081   ← visualizer
 ```
 
-### Anvil
+## `make help`
 
-```shell
-$ anvil
-```
+You can always run:
 
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
+```bash
+make help
 ```
