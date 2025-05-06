@@ -4,14 +4,26 @@ pragma solidity ^0.8.19;
 
 import "forge-std/Script.sol";
 
-contract A { function foo() external pure returns (uint) { return 42; } }
-contract B {
-    uint public x;
-    constructor(address a) { x = A(a).foo(); }
+contract A {
+    function foo() external pure returns (uint256) {
+        return 42;
+    }
 }
+
+contract B {
+    uint256 public x;
+
+    constructor(address a) {
+        x = A(a).foo();
+    }
+}
+
 contract C {
-    uint public y;
-    constructor(address b) { y = B(b).x(); }
+    uint256 public y;
+
+    constructor(address b) {
+        y = B(b).x();
+    }
 }
 
 contract DeployComplex is Script {

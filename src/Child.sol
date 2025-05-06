@@ -3,8 +3,9 @@
 pragma solidity ^0.8.19;
 
 contract Child {
-    uint public x;
-    constructor(uint _x) {
+    uint256 public x;
+
+    constructor(uint256 _x) {
         x = _x;
     }
 }

@@ -12,4 +12,3 @@ contract DeployLibraryUser is Script {
         vm.stopBroadcast();
     }
 }
-

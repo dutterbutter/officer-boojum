@@ -3,7 +3,7 @@ pragma solidity ^0.8.19;
 
 import "forge-std/Script.sol";
 import "forge-std/console.sol";
-import { SelfDestructor } from "../src/SelfDestructor.sol";
+import {SelfDestructor} from "../src/SelfDestructor.sol";
 
 contract DeploySelfDestruct is Script {
     function run() external {

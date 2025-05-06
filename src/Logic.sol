@@ -4,6 +4,7 @@ pragma solidity ^0.8.19;
 
 contract Logic {
     uint256 public num;
+
     function setNum(uint256 _num) external {
         num = _num;
     }

@@ -3,5 +3,5 @@
 pragma solidity ^0.8.19;
 
 interface P256Verify {
-    function verify(/* args */) external view returns (bool);
+    function verify( /* args */ ) external view returns (bool);
 }

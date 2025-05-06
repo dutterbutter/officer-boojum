@@ -21,7 +21,7 @@ contract DeployWithCreate2 is Script {
             if iszero(deployed) { revert(0, 0) }
         }
 
-        // deploy with syntax sugar 
+        // deploy with syntax sugar
         deployed2 = address(new Child{salt: salt}(arg));
         vm.stopBroadcast();
 

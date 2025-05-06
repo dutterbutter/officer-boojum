@@ -10,6 +10,7 @@ import "@openzeppelin/contracts/proxy/transparent/TransparentUpgradeableProxy.so
 
 contract ImplV1 {
     uint256 public x;
+
     function initialize(uint256 _x) public {
         require(x == 0, "Already initialized");
         x = _x;
@@ -23,15 +24,8 @@ contract DeployUpgradeableProxy is Script {
         ProxyAdmin admin = new ProxyAdmin(msg.sender);
         ImplV1 impl = new ImplV1();
         // encode initializer
-        bytes memory initData = abi.encodeWithSelector(
-            ImplV1.initialize.selector,
-            777
-        );
-        TransparentUpgradeableProxy proxy = new TransparentUpgradeableProxy(
-            address(impl),
-            address(admin),
-            initData
-        );
+        bytes memory initData = abi.encodeWithSelector(ImplV1.initialize.selector, 777);
+        TransparentUpgradeableProxy proxy = new TransparentUpgradeableProxy(address(impl), address(admin), initData);
         vm.stopBroadcast();
         console.log("Proxy address:", address(proxy));
     }
