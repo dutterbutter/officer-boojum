@@ -189,3 +189,18 @@ blockscout-down:
 blockscout-reset:
 	@echo "🧹 Resetting Blockscout data…"
 	@bash scripts/blockscout_reset.sh
+
+# ─────────────────────────────────────────────────────────────────────────────
+# ── Execution-spec-tests runner ───────────────────────────────────────────────
+.PHONY: setup-exec-tests
+setup-exec-tests:
+	@echo "🔧 Setting up Ethereum execution-spec-tests..."
+	@bash scripts/spec_test_setup.sh
+
+.PHONY: exec-tests
+exec-tests: setup-exec-tests
+	@echo
+	@echo "🧪 Running Cancun execution-spec tests…"
+	@RPC_ENDPOINT=$(RPC_URL)               \
+	SEED_KEY=$(FROM_KEY)                   \
+	bash scripts/run_spec_tests_cancun.sh
