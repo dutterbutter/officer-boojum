@@ -2,15 +2,15 @@
 set -euo pipefail
 
 # ─── Initialize or update the execution-spec-tests submodule ───────────────
-if [ ! -d submodules/execution-spec-tests ]; then
+if [ ! -d execution-spec-tests ]; then
   echo "📥 Adding execution-spec-tests submodule..."
-  git submodule add https://github.com/ethereum/execution-spec-tests.git
+  git submodule add https://github.com/dutterbutter/execution-spec-tests.git
 else
   echo "🔄 Updating execution-spec-tests submodule..."
-  git submodule update --init --recursive submodules/execution-spec-tests
+  git submodule update --init --recursive execution-spec-tests
 fi
 
-cd submodules/execution-spec-tests
+cd execution-spec-tests
 
 # ─── Install uv if not already installed ──────────────────────────────────
 if ! command -v uv >/dev/null; then

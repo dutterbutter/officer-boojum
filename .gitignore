@@ -16,3 +16,5 @@ docs/
 zksync-era/
 zksync-era-private/
 blockscout/
+execution-spec-tests
+execution-spec-tests/*

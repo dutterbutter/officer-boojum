@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -eo pipefail
 
-cd submodules/execution-spec-tests
+cd execution-spec-tests
 
 # defaults — you can override by exporting before calling this script:
 : "${UV:=uv}"
