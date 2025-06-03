@@ -2,9 +2,9 @@
 set -eEuo pipefail
 
 ### ─── Configuration (tweak as needed) ─────────────────────────── ###
-: "${REPO_URL:=git@github.com:matter-labs/zksync-era-private.git}"
-: "${DIR:=zksync-era-private}"
-: "${BRANCH:=zkos-blocks-with-many-tx}"
+: "${REPO_URL:=git@github.com:matter-labs/zksync-era.git}"
+: "${DIR:=zksync-era}"
+: "${BRANCH:=rb-zkos-integration-v28}"
 
 : "${L1_RPC_URL:=http://localhost:8545}"
 : "${DB_URL:=postgres://postgres:notsecurepassword@localhost:5432}"
