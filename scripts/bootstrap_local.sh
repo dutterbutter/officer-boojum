@@ -4,7 +4,7 @@ set -eEuo pipefail
 ### ─── Configuration (tweak as needed) ─────────────────────────── ###
 : "${REPO_URL:=git@github.com:matter-labs/zksync-era.git}"
 : "${DIR:=zksync-era}"
-: "${BRANCH:=rb-zkos-integration-v28}"
+: "${BRANCH:=zksync-os-integration}"
 
 : "${L1_RPC_URL:=http://localhost:8545}"
 : "${DB_URL:=postgres://postgres:notsecurepassword@localhost:5432}"
@@ -65,8 +65,7 @@ pushd "$DIR" >/dev/null
   echo "→ Starting zkstack server…"
   zkstack server \
     --ignore-prerequisites \
-    --chain era \
-    --zkos
+    --chain era 
 popd >/dev/null
 
 echo "✅ All done! Your local environment is up."

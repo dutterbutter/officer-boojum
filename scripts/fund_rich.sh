@@ -6,7 +6,7 @@ export $(grep -v '^#' .env | xargs)
 
 # ─── Configurable variables ─────────────
 RPC_URL=${LOCAL_L1_RPC_URL:-http://localhost:8545}
-L2_RPC_URL=${LOCAL_L2_RPC_URL:-http://localhost:3050}
+L2_RPC_URL=${LOCAL_L2_RPC_URL:-http://localhost:3053}
 # Assumes using default Rich account PK ending in 4110
 FROM=${FROM:-0x36615Cf349d7F6344891B1e7CA7C72883F5dc049}
 PRIVATE_KEY=${PRIVATE_KEY:-${PRIVATE_KEY}}
